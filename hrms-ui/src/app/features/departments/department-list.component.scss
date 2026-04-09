@@ -1,0 +1,39 @@
+.dept-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dept-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #e8eaf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--hrms-primary);
+  }
+}
+
+.dept-name {
+  font-weight: 600;
+  color: #1a1d2e;
+}
+
+.text-muted { color: #6b7280; }
+
+.id-col { width: 60px; }
+
+.desc-col {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,43 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h2 class="page-title">{{ departmentId ? 'Edit Department' : 'New Department' }}</h2>
+      <p class="page-subtitle">{{ departmentId ? 'Update department details' : 'Create a new department' }}</p>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button class="btn-hover" (click)="cancel()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+    </div>
+  </header>
+
+  <mat-card class="card-elevated form-card">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin-bottom:16px"></mat-progress-bar>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Department name</mat-label>
+        <mat-icon matPrefix>business</mat-icon>
+        <input matInput formControlName="name" placeholder="e.g. Engineering" />
+        <mat-error>Name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <mat-icon matPrefix>notes</mat-icon>
+        <textarea matInput rows="4" formControlName="description"
+                  placeholder="Brief description of this department…"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-stroked-button class="btn-hover" type="button" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" class="btn-hover" type="submit"
+                [disabled]="form.invalid || loading">
+          <mat-icon>save</mat-icon>
+          {{ departmentId ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</section>

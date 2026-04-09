@@ -1,0 +1,51 @@
+version: "2.4"
+services:
+  db:
+    image: postgres:15
+    container_name: hrms-postgres
+    environment:
+      POSTGRES_DB: hrms
+      POSTGRES_USER: hrms
+      POSTGRES_PASSWORD: hrms
+    ports:
+      - "5432:5432"
+    volumes:
+      - hrms-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hrms -d hrms"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./hrms
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/hrms
+      SPRING_DATASOURCE_USERNAME: hrms
+      SPRING_DATASOURCE_PASSWORD: hrms
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_HIKARI_INITIALIZATION_FAIL_TIMEOUT: "0"
+      JWT_SECRET: change-this-to-a-long-secure-secret-key-at-least-32-chars
+      STORAGE_LOCATION: /data/storage
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - hrms-storage:/data/storage
+
+  frontend:
+    build:
+      context: ./hrms-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  hrms-db:
+  hrms-storage:

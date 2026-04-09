@@ -1,0 +1,60 @@
+<mat-sidenav-container class="shell">
+  <!-- ─── Sidebar ─── -->
+  <mat-sidenav #sidenav class="sidenav" mode="side" [opened]="true">
+    <!-- Brand -->
+    <div class="brand">
+      <div class="brand-logo">
+        <mat-icon>corporate_fare</mat-icon>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">HRMS</span>
+        <span class="brand-tagline">HR Management</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <p class="nav-label">Main menu</p>
+      <nav>
+        <a
+          *ngFor="let item of navItems"
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+        >
+          <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+          <span class="nav-label-text">{{ item.label }}</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- User footer -->
+    <div class="sidenav-footer">
+      <div class="user-chip">
+        <div class="user-avatar">{{ userInitial }}</div>
+        <span class="user-name">{{ username }}</span>
+      </div>
+      <button mat-icon-button class="logout-btn" (click)="logout()" matTooltip="Sign out">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <!-- ─── Main ─── -->
+  <mat-sidenav-content class="main-content">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button mat-icon-button class="menu-toggle" (click)="sidenav.toggle()" matTooltip="Toggle sidebar">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="topbar-spacer"></span>
+      <div class="topbar-right">
+        <span class="topbar-greeting">Hello, <strong>{{ username }}</strong></span>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-outlet">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,109 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h2 class="page-title">{{ employeeId ? 'Edit Employee' : 'New Employee' }}</h2>
+      <p class="page-subtitle">{{ employeeId ? 'Update employee details' : 'Fill in the details to create a new employee' }}</p>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button class="btn-hover" (click)="cancel()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+    </div>
+  </header>
+
+  <mat-card class="card-elevated">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin-bottom:16px"></mat-progress-bar>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <!-- Personal Info -->
+      <div class="form-section">
+        <div class="section-header">
+          <mat-icon>person</mat-icon>
+          <span>Personal Information</span>
+        </div>
+        <div class="grid">
+          <mat-form-field appearance="outline">
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstName" />
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last name</mat-label>
+            <input matInput formControlName="lastName" />
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <mat-icon matPrefix>email</mat-icon>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="form.get('email')?.hasError('required')">Required</mat-error>
+            <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phone</mat-label>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input matInput formControlName="phone" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Employment Info -->
+      <div class="form-section">
+        <div class="section-header">
+          <mat-icon>work</mat-icon>
+          <span>Employment Details</span>
+        </div>
+        <div class="grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Hire date</mat-label>
+            <mat-icon matPrefix>calendar_today</mat-icon>
+            <input matInput type="date" formControlName="hireDate" />
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="ACTIVE">Active</mat-option>
+              <mat-option value="INACTIVE">Inactive</mat-option>
+              <mat-option value="SUSPENDED">Suspended</mat-option>
+              <mat-option value="TERMINATED">Terminated</mat-option>
+            </mat-select>
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Salary</mat-label>
+            <mat-icon matPrefix>attach_money</mat-icon>
+            <input matInput type="number" formControlName="salary" min="0" />
+            <mat-error>Required, min 0</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Department</mat-label>
+            <mat-icon matPrefix>business</mat-icon>
+            <mat-select formControlName="departmentId">
+              <mat-option [value]="null">— None —</mat-option>
+              <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                {{ dept.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button class="btn-hover" type="button" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" class="btn-hover" type="submit"
+                [disabled]="form.invalid || loading">
+          <mat-icon>save</mat-icon>
+          {{ employeeId ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</section>
