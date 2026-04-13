@@ -21,7 +21,7 @@ pipeline {
         
         stage('OWASP Scanner') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --format XML --format HTML', odcInstallation: 'DPCheck'
+                dependencyCheck additionalArguments: '--scan ./ --format XML --format HTML --failOnCVSS 7', odcInstallation: 'DPCheck'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
@@ -35,6 +35,14 @@ pipeline {
                         -Dsonar.java.binaries=. \
                         -Dsonar.projectKey=HRMS-app
                     '''
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
