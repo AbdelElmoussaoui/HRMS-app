@@ -1,4 +1,9 @@
 <section class="page">
+  <app-breadcrumbs [crumbs]="[
+    { label: 'Departments', route: '/dashboard/departments' },
+    { label: departmentId ? 'Edit Department' : 'New Department' }
+  ]"></app-breadcrumbs>
+
   <header class="page-header">
     <div>
       <h2 class="page-title">{{ departmentId ? 'Edit Department' : 'New Department' }}</h2>

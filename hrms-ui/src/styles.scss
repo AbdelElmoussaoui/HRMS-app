@@ -1,44 +1,107 @@
 @use '@angular/material' as mat;
 
-$hrms-primary: mat.define-palette(mat.$indigo-palette, 600, 500, 800);
-$hrms-accent:  mat.define-palette(mat.$amber-palette, 600);
+/* ── Custom Emerald Palette ─────────────────────────────── */
+$emerald-palette: (
+  50:   #ecfdf5,
+  100:  #d1fae5,
+  200:  #a7f3d0,
+  300:  #6ee7b7,
+  400:  #34d399,
+  500:  #10b981,
+  600:  #059669,
+  700:  #047857,
+  800:  #065f46,
+  900:  #064e3b,
+  A100: #6ee7b7,
+  A200: #34d399,
+  A400: #10b981,
+  A700: #047857,
+  contrast: (
+    50:   rgba(black, 0.87),
+    100:  rgba(black, 0.87),
+    200:  rgba(black, 0.87),
+    300:  rgba(black, 0.87),
+    400:  rgba(black, 0.87),
+    500:  white,
+    600:  white,
+    700:  white,
+    800:  white,
+    900:  white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+$hrms-primary: mat.define-palette($emerald-palette, 500, 400, 700);
+$hrms-accent:  mat.define-palette(mat.$blue-grey-palette, 700);
 $hrms-warn:    mat.define-palette(mat.$red-palette);
 
-$hrms-theme: mat.define-light-theme((
-  color: (
-    primary: $hrms-primary,
-    accent:  $hrms-accent,
-    warn:    $hrms-warn
-  ),
-  typography: mat.define-typography-config(
-    $font-family: "'Inter', 'Helvetica Neue', sans-serif"
-  ),
+$typography: mat.define-typography-config(
+  $font-family: "'Inter', 'Helvetica Neue', sans-serif"
+);
+
+$hrms-light-theme: mat.define-light-theme((
+  color: (primary: $hrms-primary, accent: $hrms-accent, warn: $hrms-warn),
+  typography: $typography,
+  density: 0
+));
+
+$hrms-dark-theme: mat.define-dark-theme((
+  color: (primary: $hrms-primary, accent: $hrms-accent, warn: $hrms-warn),
+  typography: $typography,
   density: 0
 ));
 
 @include mat.core();
-@include mat.all-component-themes($hrms-theme);
+@include mat.all-component-themes($hrms-light-theme);
 
-/* ── Design Tokens ─────────────────────────────────────── */
+[data-theme="dark"] {
+  @include mat.all-component-colors($hrms-dark-theme);
+}
+
+/* ── Design Tokens — Light ───────────────────────────────── */
 :root {
-  --hrms-bg:           #f4f5fa;
-  --hrms-text:         #1a1d2e;
-  --hrms-card:         #ffffff;
-  --hrms-border:       #e4e6f0;
-  --hrms-muted:        #6b7280;
-  --hrms-primary:      #3f51b5;
-  --hrms-primary-dark: #303f9f;
-  --hrms-primary-rgb:  63, 81, 181;
-  --hrms-danger:       #c62828;
-  --hrms-success:      #2e7d32;
-  --hrms-warning:      #f59e0b;
-  --hrms-sidebar-bg:   #1a1d2e;
-  --hrms-sidebar-w:    240px;
-  --hrms-topbar-h:     62px;
-  --hrms-radius:       14px;
-  --hrms-shadow-sm:    0 2px 8px rgba(0,0,0,0.06);
-  --hrms-shadow-md:    0 6px 20px rgba(0,0,0,0.09);
-  --hrms-shadow-lg:    0 12px 32px rgba(0,0,0,0.14);
+  --hrms-bg:            #F8FAFC;
+  --hrms-card:          #FFFFFF;
+  --hrms-border:        #E2E8F0;
+  --hrms-text:          #0F172A;
+  --hrms-muted:         #64748B;
+  --hrms-primary:       #10B981;
+  --hrms-primary-dark:  #059669;
+  --hrms-primary-rgb:   16, 185, 129;
+  --hrms-danger:        #EF4444;
+  --hrms-success:       #10B981;
+  --hrms-warning:       #F59E0B;
+  --hrms-sidebar-bg:    #0F172A;
+  --hrms-topbar-bg:     #FFFFFF;
+  --hrms-sidebar-w:     240px;
+  --hrms-topbar-h:      62px;
+  --hrms-radius:        14px;
+  --hrms-shadow-sm:     0 2px 8px rgba(0,0,0,0.06);
+  --hrms-shadow-md:     0 6px 20px rgba(0,0,0,0.09);
+  --hrms-shadow-lg:     0 12px 32px rgba(0,0,0,0.14);
+  --hrms-heading-font:  'Space Grotesk', 'Inter', sans-serif;
+  --hrms-table-header:  #F8FAFC;
+  --hrms-row-hover:     #F0FDF9;
+  --hrms-row-focus:     #DCFCE7;
+}
+
+/* ── Design Tokens — Dark ────────────────────────────────── */
+[data-theme="dark"] {
+  --hrms-bg:            #0B1120;
+  --hrms-card:          #1E293B;
+  --hrms-border:        #334155;
+  --hrms-text:          #F1F5F9;
+  --hrms-muted:         #94A3B8;
+  --hrms-topbar-bg:     #1E293B;
+  --hrms-shadow-sm:     0 2px 8px rgba(0,0,0,0.35);
+  --hrms-shadow-md:     0 6px 20px rgba(0,0,0,0.45);
+  --hrms-shadow-lg:     0 12px 32px rgba(0,0,0,0.55);
+  --hrms-table-header:  #162032;
+  --hrms-row-hover:     #0f291f;
+  --hrms-row-focus:     #0d3321;
 }
 
 /* ── Base ────────────────────────────────────────────────── */
@@ -50,17 +113,27 @@ body {
   background: var(--hrms-bg);
   color: var(--hrms-text);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ── Heading font ────────────────────────────────────────── */
+h1, h2, h3, .page-title, .stat-value, .brand-name {
+  font-family: var(--hrms-heading-font);
 }
 
 /* ── Card ────────────────────────────────────────────────── */
 .mat-mdc-card { padding: 20px; }
 
 .card-elevated {
-  background: var(--hrms-card);
-  border: 1px solid var(--hrms-border);
-  border-radius: var(--hrms-radius);
-  box-shadow: var(--hrms-shadow-sm);
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  background: var(--hrms-card) !important;
+  border: 1px solid var(--hrms-border) !important;
+  border-radius: var(--hrms-radius) !important;
+  box-shadow: var(--hrms-shadow-sm) !important;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.card-elevated:hover {
+  box-shadow: var(--hrms-shadow-md) !important;
 }
 
 /* ── Page Layout ─────────────────────────────────────────── */
@@ -98,7 +171,6 @@ body {
   }
 }
 
-/* Keep backward compat with h2 / p inside page-header */
 .page-header h2 {
   margin: 0 0 4px 0;
   font-size: 22px;
@@ -119,8 +191,12 @@ body {
   overflow: hidden;
 }
 
+.mat-mdc-table {
+  background: var(--hrms-card) !important;
+}
+
 .mat-mdc-table .mat-mdc-header-row {
-  background: #f8f9fd;
+  background: var(--hrms-table-header) !important;
 }
 
 .mat-mdc-table .mat-mdc-header-cell {
@@ -129,19 +205,23 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--hrms-muted);
+  border-bottom-color: var(--hrms-border) !important;
 }
 
 .mat-mdc-table .mat-mdc-row {
   transition: background-color 0.15s ease;
+  border-bottom-color: var(--hrms-border) !important;
 }
 
 .mat-mdc-table .mat-mdc-row:hover {
-  background: #eef0f9;
+  background: var(--hrms-row-hover) !important;
 }
 
 .mat-mdc-table .mat-mdc-row:focus-within {
-  background: #e8ebf6;
+  background: var(--hrms-row-focus) !important;
 }
+
+.mat-mdc-cell { color: var(--hrms-text) !important; }
 
 /* ── Form Fields ─────────────────────────────────────────── */
 .mat-mdc-form-field {
@@ -153,7 +233,7 @@ body {
 }
 
 .mat-mdc-form-field.mat-focused .mdc-text-field {
-  box-shadow: 0 0 0 3px rgba(var(--hrms-primary-rgb), 0.10);
+  box-shadow: 0 0 0 3px rgba(var(--hrms-primary-rgb), 0.12);
 }
 
 /* ── Buttons ─────────────────────────────────────────────── */
@@ -200,16 +280,25 @@ body {
   letter-spacing: 0.04em;
 }
 
-/* Status badges */
-.badge.pending  { background: #fef3c7; color: #92400e; }
-.badge.approved { background: #d1fae5; color: #065f46; }
-.badge.rejected { background: #fee2e2; color: #991b1b; }
-.badge.active   { background: #d1fae5; color: #065f46; }
-.badge.inactive { background: #f3f4f6; color: #6b7280; }
-.badge.suspended{ background: #fef3c7; color: #92400e; }
+.badge.pending    { background: #fef3c7; color: #92400e; }
+.badge.approved   { background: #d1fae5; color: #065f46; }
+.badge.rejected   { background: #fee2e2; color: #991b1b; }
+.badge.active     { background: #d1fae5; color: #065f46; }
+.badge.inactive   { background: #f3f4f6; color: #6b7280; }
+.badge.suspended  { background: #fef3c7; color: #92400e; }
 .badge.terminated { background: #fee2e2; color: #991b1b; }
 
-/* Leave type chips */
+[data-theme="dark"] {
+  .badge.pending    { background: rgba(254,243,199,0.12); color: #fcd34d; }
+  .badge.approved   { background: rgba(209,250,229,0.12); color: #6ee7b7; }
+  .badge.rejected   { background: rgba(254,226,226,0.12); color: #fca5a5; }
+  .badge.active     { background: rgba(209,250,229,0.12); color: #6ee7b7; }
+  .badge.inactive   { background: rgba(243,244,246,0.10); color: #94a3b8; }
+  .badge.suspended  { background: rgba(254,243,199,0.12); color: #fcd34d; }
+  .badge.terminated { background: rgba(254,226,226,0.12); color: #fca5a5; }
+}
+
+/* ── Leave type chips ────────────────────────────────────── */
 .type-chip {
   display: inline-flex;
   align-items: center;
@@ -220,9 +309,15 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.type-chip.annual  { background: #e0e7ff; color: #3730a3; }
-.type-chip.sick    { background: #fce7f3; color: #9d174d; }
-.type-chip.unpaid  { background: #f3f4f6; color: #374151; }
+.type-chip.annual { background: #e0e7ff; color: #3730a3; }
+.type-chip.sick   { background: #fce7f3; color: #9d174d; }
+.type-chip.unpaid { background: #f3f4f6; color: #374151; }
+
+[data-theme="dark"] {
+  .type-chip.annual { background: rgba(224,231,255,0.12); color: #a5b4fc; }
+  .type-chip.sick   { background: rgba(252,231,243,0.12); color: #f9a8d4; }
+  .type-chip.unpaid { background: rgba(243,244,246,0.10); color: #94a3b8; }
+}
 
 /* ── Empty State ─────────────────────────────────────────── */
 .empty-state {
@@ -257,18 +352,33 @@ body {
   }
 }
 
-/* ── Snack Bars ──────────────────────────────────────────── */
-.snack-success {
-  --mdc-snackbar-container-color: #065f46;
-  --mdc-snackbar-supporting-text-color: #fff;
-}
-.snack-error {
-  --mdc-snackbar-container-color: #991b1b;
-  --mdc-snackbar-supporting-text-color: #fff;
-}
-
 /* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+::-webkit-scrollbar-thumb { background: var(--hrms-border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--hrms-muted); }
+
+/* ── Stat trend badges ───────────────────────────────────── */
+.stat-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+
+  mat-icon { font-size: 13px; width: 13px; height: 13px; }
+
+  &.up   { color: #059669; }
+  &.down { color: #dc2626; }
+}
+
+/* ── Card stagger animation ──────────────────────────────── */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stagger-1 { animation: cardIn 320ms ease-out 0ms   both; }
+.stagger-2 { animation: cardIn 320ms ease-out 60ms  both; }
+.stagger-3 { animation: cardIn 320ms ease-out 120ms both; }
+.stagger-4 { animation: cardIn 320ms ease-out 180ms both; }

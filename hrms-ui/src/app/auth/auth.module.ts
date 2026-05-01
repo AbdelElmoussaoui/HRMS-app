@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { SharedModule } from '../shared/shared.module';
 import { AuthComponent } from './components/auth.component';
 
 const routes: Routes = [
@@ -26,7 +27,8 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SharedModule,
   ]
 })
 export class AuthModule {}

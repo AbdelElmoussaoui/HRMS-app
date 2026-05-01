@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -16,6 +17,16 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDividerModule } from '@angular/material/divider';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LayoutModule } from '@angular/cdk/layout';
+
+import { LogoComponent } from './logo/logo.component';
+import { SkeletonComponent } from './skeleton/skeleton.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { ToastContainerComponent } from './toast/toast.component';
 
 const MATERIAL = [
   MatButtonModule,
@@ -25,6 +36,7 @@ const MATERIAL = [
   MatTableModule,
   MatSelectModule,
   MatProgressBarModule,
+  MatProgressSpinnerModule,
   MatIconModule,
   MatTooltipModule,
   MatPaginatorModule,
@@ -33,10 +45,22 @@ const MATERIAL = [
   MatDialogModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MatMenuModule,
+  MatAutocompleteModule,
+  MatDividerModule,
+  LayoutModule,
+];
+
+const SHARED_COMPONENTS = [
+  LogoComponent,
+  SkeletonComponent,
+  BreadcrumbsComponent,
+  ToastContainerComponent,
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ...MATERIAL],
-  exports: [CommonModule, RouterModule, ...MATERIAL]
+  declarations: [...SHARED_COMPONENTS],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, ...MATERIAL],
+  exports: [CommonModule, RouterModule, ReactiveFormsModule, ...MATERIAL, ...SHARED_COMPONENTS]
 })
 export class SharedModule {}

@@ -8,14 +8,14 @@ import { AuthService } from '../services/auth.service';
   selector: 'app-auth',
   template: `
     <div class="auth-shell">
+
       <!-- Left branding panel -->
       <div class="auth-brand">
         <div class="brand-content">
-          <div class="brand-logo">
-            <mat-icon>corporate_fare</mat-icon>
-          </div>
+          <app-logo [size]="60"></app-logo>
           <h1 class="brand-title">HRMS</h1>
           <p class="brand-subtitle">Human Resource Management System</p>
+
           <div class="brand-features">
             <div class="feature-item">
               <mat-icon>people</mat-icon>
@@ -27,7 +27,20 @@ import { AuthService } from '../services/auth.service';
             </div>
             <div class="feature-item">
               <mat-icon>event_available</mat-icon>
-              <span>Leave & Approvals</span>
+              <span>Leave &amp; Approvals</span>
+            </div>
+            <div class="feature-item">
+              <mat-icon>show_chart</mat-icon>
+              <span>Live Dashboard</span>
+            </div>
+          </div>
+
+          <!-- Demo credentials badge -->
+          <div class="demo-badge">
+            <mat-icon>info_outline</mat-icon>
+            <div>
+              <div class="demo-label">Demo credentials</div>
+              <div class="demo-creds">admin / admin123</div>
             </div>
           </div>
         </div>
@@ -36,9 +49,10 @@ import { AuthService } from '../services/auth.service';
       <!-- Right form panel -->
       <div class="auth-form-panel">
         <mat-card class="auth-card">
+
           <div class="card-header">
             <div class="card-logo">
-              <mat-icon>lock</mat-icon>
+              <mat-icon>lock_outline</mat-icon>
             </div>
             <h2>Welcome back</h2>
             <p>Sign in to your HRMS account</p>
@@ -79,7 +93,7 @@ import { AuthService } from '../services/auth.service';
                     [disabled]="form.invalid || loading">
               <mat-icon *ngIf="!loading">login</mat-icon>
               <mat-spinner *ngIf="loading" diameter="18" class="spinner"></mat-spinner>
-              <span>{{ loading ? 'Signing in...' : 'Sign in' }}</span>
+              <span>{{ loading ? 'Signing in…' : 'Sign in' }}</span>
             </button>
           </form>
         </mat-card>
@@ -92,10 +106,10 @@ import { AuthService } from '../services/auth.service';
       display: flex;
     }
 
-    /* Left branding */
+    /* ── Left brand panel ── */
     .auth-brand {
       flex: 1;
-      background: linear-gradient(145deg, #1a1d2e 0%, #2d3561 60%, #3f51b5 100%);
+      background: linear-gradient(145deg, #0F172A 0%, #0d2a20 55%, #065f46 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -107,23 +121,19 @@ import { AuthService } from '../services/auth.service';
     .auth-brand::before {
       content: '';
       position: absolute;
-      width: 500px;
-      height: 500px;
+      width: 480px; height: 480px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.03);
-      top: -100px;
-      right: -150px;
+      background: rgba(16,185,129,0.06);
+      top: -120px; right: -140px;
     }
 
     .auth-brand::after {
       content: '';
       position: absolute;
-      width: 300px;
-      height: 300px;
+      width: 280px; height: 280px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-      bottom: -60px;
-      left: -60px;
+      background: rgba(16,185,129,0.05);
+      bottom: -60px; left: -60px;
     }
 
     .brand-content {
@@ -132,78 +142,94 @@ import { AuthService } from '../services/auth.service';
       max-width: 340px;
     }
 
-    .brand-logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .brand-logo mat-icon {
-      color: #fff;
-      font-size: 34px;
-      width: 34px;
-      height: 34px;
-    }
-
     .brand-title {
-      margin: 0 0 8px;
-      font-size: 38px;
+      margin: 20px 0 8px;
+      font-size: 40px;
       font-weight: 800;
       color: #fff;
       letter-spacing: 0.04em;
+      font-family: 'Space Grotesk', sans-serif;
     }
 
     .brand-subtitle {
-      margin: 0 0 40px;
+      margin: 0 0 36px;
       font-size: 15px;
-      color: rgba(255,255,255,0.60);
+      color: rgba(255,255,255,0.55);
       line-height: 1.5;
     }
 
     .brand-features {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
+      margin-bottom: 32px;
     }
 
     .feature-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.72);
       font-size: 14px;
       font-weight: 500;
     }
 
     .feature-item mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      color: #a5b4fc;
+      font-size: 18px; width: 18px; height: 18px;
+      color: #6ee7b7;
     }
 
-    /* Right form panel */
+    /* Demo badge */
+    .demo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .demo-badge mat-icon {
+      font-size: 18px; width: 18px; height: 18px;
+      color: #6ee7b7;
+      flex-shrink: 0;
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6ee7b7;
+      margin-bottom: 2px;
+    }
+
+    .demo-creds {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── Right form panel ── */
     .auth-form-panel {
       width: 480px;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 40px 32px;
-      background: #f4f5fa;
+      background: var(--hrms-bg);
+      transition: background-color 0.25s ease;
     }
 
     .auth-card {
       width: 100%;
       max-width: 400px;
       border-radius: 20px !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.10) !important;
-      border: 1px solid #e4e6f0;
+      box-shadow: var(--hrms-shadow-lg) !important;
+      border: 1px solid var(--hrms-border) !important;
+      background: var(--hrms-card) !important;
       padding: 32px !important;
     }
 
@@ -213,10 +239,9 @@ import { AuthService } from '../services/auth.service';
     }
 
     .card-logo {
-      width: 52px;
-      height: 52px;
+      width: 52px; height: 52px;
       border-radius: 14px;
-      background: linear-gradient(135deg, #5c6bc0, #3f51b5);
+      background: linear-gradient(135deg, #10b981, #059669);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -225,22 +250,21 @@ import { AuthService } from '../services/auth.service';
 
     .card-logo mat-icon {
       color: #fff;
-      font-size: 26px;
-      width: 26px;
-      height: 26px;
+      font-size: 26px; width: 26px; height: 26px;
     }
 
     .card-header h2 {
       margin: 0 0 6px;
       font-size: 22px;
       font-weight: 700;
-      color: #1a1d2e;
+      color: var(--hrms-text);
+      font-family: 'Space Grotesk', sans-serif;
     }
 
     .card-header p {
       margin: 0;
       font-size: 14px;
-      color: #6b7280;
+      color: var(--hrms-muted);
     }
 
     form {
@@ -252,7 +276,7 @@ import { AuthService } from '../services/auth.service';
     .full-width { width: 100%; }
 
     .field-icon {
-      color: #9ca3af;
+      color: var(--hrms-muted);
       font-size: 20px;
       margin-right: 8px;
     }
@@ -270,9 +294,7 @@ import { AuthService } from '../services/auth.service';
     }
 
     .error-banner mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+      font-size: 18px; width: 18px; height: 18px;
       flex-shrink: 0;
     }
 
@@ -290,14 +312,14 @@ import { AuthService } from '../services/auth.service';
     .spinner { margin-right: 4px; }
 
     @media (max-width: 768px) {
-      .auth-brand { display: none; }
+      .auth-brand      { display: none; }
       .auth-form-panel { width: 100%; padding: 24px 16px; }
     }
   `]
 })
 export class AuthComponent {
-  loading = false;
-  error = '';
+  loading      = false;
+  error        = '';
   showPassword = false;
 
   form = this.fb.nonNullable.group({
@@ -315,7 +337,7 @@ export class AuthComponent {
     if (this.form.invalid) return;
 
     this.loading = true;
-    this.error = '';
+    this.error   = '';
 
     const { username, password } = this.form.getRawValue();
     this.authService.login({ username, password }).subscribe({

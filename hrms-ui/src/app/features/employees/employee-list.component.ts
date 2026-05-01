@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { EmployeeApiService } from '../services/employee-api.service';
 import { EmployeeResponse } from '../models/employee.model';
@@ -12,25 +15,41 @@ import { EmployeeResponse } from '../models/employee.model';
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
-export class EmployeeListComponent implements OnInit, AfterViewInit {
+export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns = ['avatar', 'name', 'email', 'department', 'status', 'actions'];
   dataSource = new MatTableDataSource<EmployeeResponse>();
-  loading = false;
+  loading  = false;
+  isMobile = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort)      sort!: MatSort;
 
-  constructor(private employeeApi: EmployeeApiService, private router: Router) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private employeeApi: EmployeeApiService,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit(): void {
     this.load();
+    this.breakpointObserver
+      .observe(['(max-width: 768px)'])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => { this.isMobile = result.matches; });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.sort      = this.sort;
     this.dataSource.filterPredicate = (row, filter) =>
       `${row.firstName} ${row.lastName} ${row.email} ${row.departmentName ?? ''}`.toLowerCase().includes(filter);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   load(): void {
@@ -44,9 +63,7 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event): void {
     const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = value;
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    if (this.dataSource.paginator) { this.dataSource.paginator.firstPage(); }
   }
 
   initials(row: EmployeeResponse): string {
@@ -55,12 +72,12 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
 
   create(): void { this.router.navigate(['/dashboard/employees/new']); }
 
-  edit(employee: EmployeeResponse): void {
-    this.router.navigate(['/dashboard/employees', employee.id, 'edit']);
+  edit(emp: EmployeeResponse): void {
+    this.router.navigate(['/dashboard/employees', emp.id, 'edit']);
   }
 
-  delete(employee: EmployeeResponse): void {
-    if (!confirm(`Delete ${employee.firstName} ${employee.lastName}?`)) return;
-    this.employeeApi.delete(employee.id).subscribe({ next: () => this.load() });
+  delete(emp: EmployeeResponse): void {
+    if (!confirm(`Delete ${emp.firstName} ${emp.lastName}?`)) return;
+    this.employeeApi.delete(emp.id).subscribe({ next: () => this.load() });
   }
 }

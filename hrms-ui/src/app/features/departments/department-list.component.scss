@@ -8,11 +8,12 @@
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: #e8eaf6;
+  background: rgba(16,185,129,0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: background-color 0.25s ease;
 
   mat-icon {
     font-size: 18px;
@@ -24,12 +25,10 @@
 
 .dept-name {
   font-weight: 600;
-  color: #1a1d2e;
+  color: var(--hrms-text);
 }
 
-.text-muted { color: #6b7280; }
-
-.id-col { width: 60px; }
+.text-muted { color: var(--hrms-muted); }
 
 .desc-col {
   max-width: 400px;

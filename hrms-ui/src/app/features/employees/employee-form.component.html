@@ -1,4 +1,9 @@
 <section class="page">
+  <app-breadcrumbs [crumbs]="[
+    { label: 'Employees', route: '/dashboard/employees' },
+    { label: employeeId ? 'Edit Employee' : 'New Employee' }
+  ]"></app-breadcrumbs>
+
   <header class="page-header">
     <div>
       <h2 class="page-title">{{ employeeId ? 'Edit Employee' : 'New Employee' }}</h2>

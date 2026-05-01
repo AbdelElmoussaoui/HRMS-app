@@ -24,10 +24,10 @@
 
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-    <div class="table-shell">
+    <!-- ── Desktop table ── -->
+    <div class="table-shell" *ngIf="!isMobile">
       <table mat-table [dataSource]="dataSource" matSort>
 
-        <!-- Avatar -->
         <ng-container matColumnDef="avatar">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let row">
@@ -35,7 +35,6 @@
           </td>
         </ng-container>
 
-        <!-- Name -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let row">
@@ -43,13 +42,11 @@
           </td>
         </ng-container>
 
-        <!-- Email -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
           <td mat-cell *matCellDef="let row" class="text-muted">{{ row.email }}</td>
         </ng-container>
 
-        <!-- Department -->
         <ng-container matColumnDef="department">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
           <td mat-cell *matCellDef="let row" class="text-muted">
@@ -57,27 +54,21 @@
           </td>
         </ng-container>
 
-        <!-- Status -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let row">
-            <span class="badge" [ngClass]="row.status.toLowerCase()">
-              {{ row.status }}
-            </span>
+            <span class="badge" [ngClass]="row.status.toLowerCase()">{{ row.status }}</span>
           </td>
         </ng-container>
 
-        <!-- Actions -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let row">
             <div class="action-icons">
-              <button mat-icon-button (click)="edit(row)"
-                      matTooltip="Edit employee" color="primary">
+              <button mat-icon-button (click)="edit(row)" matTooltip="Edit employee" color="primary">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button (click)="delete(row)"
-                      matTooltip="Delete employee" color="warn">
+              <button mat-icon-button (click)="delete(row)" matTooltip="Delete employee" color="warn">
                 <mat-icon>delete_outline</mat-icon>
               </button>
             </div>
@@ -87,7 +78,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-        <!-- Empty state -->
         <tr class="mat-row" *matNoDataRow>
           <td [attr.colspan]="displayedColumns.length">
             <div class="empty-state">
@@ -97,6 +87,36 @@
           </td>
         </tr>
       </table>
+    </div>
+
+    <!-- ── Mobile cards ── -->
+    <div class="emp-cards" *ngIf="isMobile">
+      <div class="emp-card" *ngFor="let row of dataSource.filteredData">
+        <div class="emp-card-header">
+          <div class="avatar">{{ initials(row) }}</div>
+          <div class="emp-card-info">
+            <span class="emp-name">{{ row.firstName }} {{ row.lastName }}</span>
+            <span class="text-muted emp-dept">{{ row.departmentName || '—' }}</span>
+          </div>
+          <span class="badge" [ngClass]="row.status.toLowerCase()">{{ row.status }}</span>
+        </div>
+        <div class="emp-card-meta">
+          <mat-icon>email</mat-icon>
+          <span>{{ row.email }}</span>
+        </div>
+        <div class="emp-card-actions">
+          <button mat-stroked-button (click)="edit(row)" class="btn-hover">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+          <button mat-stroked-button (click)="delete(row)" class="btn-hover btn-danger">
+            <mat-icon>delete_outline</mat-icon> Delete
+          </button>
+        </div>
+      </div>
+      <div class="empty-state" *ngIf="dataSource.filteredData.length === 0">
+        <mat-icon>people_outline</mat-icon>
+        <p>No employees found</p>
+      </div>
     </div>
 
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[5,10,25]"

@@ -12,21 +12,34 @@
     </div>
   </header>
 
-  <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin-bottom:16px;border-radius:4px"></mat-progress-bar>
+  <!-- ── Skeleton loaders ── -->
+  <div class="stat-grid" *ngIf="loading">
+    <div class="stat-card card-elevated skeleton-card" *ngFor="let i of [1,2,3,4]">
+      <app-skeleton width="48px" height="48px" variant="circle"></app-skeleton>
+      <div class="stat-body" style="flex:1">
+        <app-skeleton width="90px" height="11px" variant="text"></app-skeleton>
+        <app-skeleton width="60px" height="30px" variant="text" style="margin-top:8px; display:block"></app-skeleton>
+      </div>
+    </div>
+  </div>
 
-  <!-- Stat Cards -->
-  <div class="stat-grid" *ngIf="stats">
-    <mat-card class="stat-card card-elevated accent-blue">
+  <!-- ── Stat Cards ── -->
+  <div class="stat-grid" *ngIf="stats && !loading" [@sectionIn]>
+    <mat-card class="stat-card card-elevated accent-green stagger-1">
       <div class="stat-icon-wrap">
         <mat-icon>people</mat-icon>
       </div>
       <div class="stat-body">
         <p class="stat-label">Total Employees</p>
         <h3 class="stat-value">{{ stats.employeeCount }}</h3>
+        <small class="stat-trend up" *ngIf="stats.newThisMonth > 0">
+          <mat-icon>trending_up</mat-icon>+{{ stats.newThisMonth }} this month
+        </small>
+        <small class="stat-sub" *ngIf="stats.newThisMonth === 0">No new hires this month</small>
       </div>
     </mat-card>
 
-    <mat-card class="stat-card card-elevated accent-amber">
+    <mat-card class="stat-card card-elevated accent-amber stagger-2">
       <div class="stat-icon-wrap">
         <mat-icon>schedule</mat-icon>
       </div>
@@ -37,7 +50,7 @@
       </div>
     </mat-card>
 
-    <mat-card class="stat-card card-elevated accent-green">
+    <mat-card class="stat-card card-elevated accent-teal stagger-3">
       <div class="stat-icon-wrap">
         <mat-icon>check_circle</mat-icon>
       </div>
@@ -48,7 +61,7 @@
       </div>
     </mat-card>
 
-    <mat-card class="stat-card card-elevated accent-red">
+    <mat-card class="stat-card card-elevated accent-red stagger-4">
       <div class="stat-icon-wrap">
         <mat-icon>cancel</mat-icon>
       </div>
@@ -60,41 +73,105 @@
     </mat-card>
   </div>
 
-  <!-- Chart -->
-  <div class="chart-row" *ngIf="stats">
+  <!-- ── Charts Row ── -->
+  <div class="chart-row" *ngIf="stats && !loading" [@sectionIn]>
     <mat-card class="chart-card card-elevated">
       <div class="chart-header">
-        <mat-icon>donut_large</mat-icon>
-        <h3>Leave Status Breakdown</h3>
+        <div class="chart-header-icon"><mat-icon>show_chart</mat-icon></div>
+        <div>
+          <h3>Headcount History</h3>
+          <span class="chart-period">Last 6 months</span>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas #lineChart></canvas>
+      </div>
+    </mat-card>
+
+    <mat-card class="chart-card card-elevated">
+      <div class="chart-header">
+        <div class="chart-header-icon"><mat-icon>donut_large</mat-icon></div>
+        <div>
+          <h3>Leave Breakdown</h3>
+          <span class="chart-period">All time</span>
+        </div>
       </div>
       <div class="chart-wrap">
         <canvas #leaveChart></canvas>
       </div>
     </mat-card>
+  </div>
 
+  <!-- ── Bottom Row ── -->
+  <div class="bottom-row" *ngIf="stats && !loading" [@sectionIn]>
+
+    <!-- Recent Activity -->
+    <mat-card class="activity-card card-elevated">
+      <div class="chart-header">
+        <div class="chart-header-icon"><mat-icon>history</mat-icon></div>
+        <div><h3>Recent Activity</h3></div>
+        <a mat-button routerLink="/dashboard/leave" class="view-all-btn">View all</a>
+      </div>
+
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let item of stats.recentLeaves">
+          <div class="act-avatar">{{ item.initials }}</div>
+          <div class="act-body">
+            <span class="act-name">{{ item.employeeName }}</span>
+            <span class="act-meta">{{ item.type | titlecase }} · {{ item.startDate | date:'MMM d' }}</span>
+          </div>
+          <span class="badge" [ngClass]="item.status.toLowerCase()">{{ item.status }}</span>
+        </div>
+        <div class="empty-state" *ngIf="stats.recentLeaves.length === 0">
+          <mat-icon>history</mat-icon>
+          <p>No recent activity</p>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Top Departments -->
+    <mat-card class="dept-card card-elevated">
+      <div class="chart-header">
+        <div class="chart-header-icon"><mat-icon>leaderboard</mat-icon></div>
+        <div><h3>Top Departments</h3></div>
+      </div>
+      <div class="dept-list">
+        <div class="dept-item" *ngFor="let dept of stats.topDepartments; let i = index">
+          <div class="dept-rank">{{ i + 1 }}</div>
+          <div class="dept-info">
+            <div class="dept-name-row">
+              <span class="dept-name-text">{{ dept.name }}</span>
+              <span class="dept-count">{{ dept.count }}</span>
+            </div>
+            <div class="dept-bar-track">
+              <div class="dept-bar-fill" [style.width]="dept.percentage + '%'"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Quick Actions -->
     <mat-card class="quick-actions card-elevated">
       <div class="chart-header">
-        <mat-icon>bolt</mat-icon>
-        <h3>Quick Actions</h3>
+        <div class="chart-header-icon"><mat-icon>bolt</mat-icon></div>
+        <div><h3>Quick Actions</h3></div>
       </div>
       <div class="actions-list">
         <a mat-stroked-button routerLink="/dashboard/employees/new" class="action-link btn-hover">
-          <mat-icon>person_add</mat-icon>
-          New Employee
+          <mat-icon>person_add</mat-icon> New Employee
         </a>
         <a mat-stroked-button routerLink="/dashboard/departments/new" class="action-link btn-hover">
-          <mat-icon>add_business</mat-icon>
-          New Department
+          <mat-icon>add_business</mat-icon> New Department
         </a>
         <a mat-stroked-button routerLink="/dashboard/leave/new" class="action-link btn-hover">
-          <mat-icon>event_note</mat-icon>
-          New Leave Request
+          <mat-icon>event_note</mat-icon> New Leave Request
         </a>
         <a mat-stroked-button routerLink="/dashboard/leave/approvals" class="action-link btn-hover">
-          <mat-icon>how_to_reg</mat-icon>
-          Review Approvals
+          <mat-icon>how_to_reg</mat-icon> Review Approvals
         </a>
       </div>
     </mat-card>
+
   </div>
 </section>

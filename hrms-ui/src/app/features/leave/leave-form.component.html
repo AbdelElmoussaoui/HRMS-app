@@ -1,4 +1,9 @@
 <section class="page">
+  <app-breadcrumbs [crumbs]="[
+    { label: 'Leave', route: '/dashboard/leave' },
+    { label: requestId ? 'Edit Request' : 'New Request' }
+  ]"></app-breadcrumbs>
+
   <header class="page-header">
     <div>
       <h2 class="page-title">{{ requestId ? 'Edit Leave Request' : 'New Leave Request' }}</h2>
@@ -17,11 +22,26 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="grid">
+
+        <!-- Employee autocomplete -->
         <mat-form-field appearance="outline">
-          <mat-label>Employee ID</mat-label>
-          <mat-icon matPrefix>badge</mat-icon>
-          <input matInput type="number" formControlName="employeeId" />
-          <mat-error>Required</mat-error>
+          <mat-label>Employee</mat-label>
+          <mat-icon matPrefix>person_search</mat-icon>
+          <input
+            matInput
+            [formControl]="employeeSearchControl"
+            [matAutocomplete]="empAuto"
+            placeholder="Search by name…" />
+          <mat-autocomplete
+            #empAuto="matAutocomplete"
+            [displayWith]="displayEmployee"
+            (optionSelected)="onEmployeeSelected($event.option.value)">
+            <mat-option *ngFor="let emp of filteredEmployees" [value]="emp">
+              <span style="font-weight:600">{{ emp.firstName }} {{ emp.lastName }}</span>
+              <small style="color:var(--hrms-muted); margin-left:8px">{{ emp.departmentName || '—' }}</small>
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="form.get('employeeId')?.hasError('required')">Required</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">

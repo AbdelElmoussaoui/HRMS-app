@@ -1,114 +1,129 @@
-# HR Management System
+# HRMS — Human Resource Management System
 
-Full-stack HRMS with Spring Boot 3 (API) and Angular 16 (UI).
+Full-stack HRMS with Spring Boot 3 (API) and Angular 16 (UI) — premium UI/UX with dark mode, live dashboard and demo data.
 
-## Stack
-- Backend: Spring Boot 3, Java 17, Maven, PostgreSQL, Spring Security (JWT)
-- Frontend: Angular 16, Angular Material, SCSS
+## Screenshots
+
+<!-- TODO: add screenshots after first launch -->
+| Dashboard (Light) | Dashboard (Dark) |
+|---|---|
+| ![Dashboard light](docs/screenshots/dashboard-light.png) | ![Dashboard dark](docs/screenshots/dashboard-dark.png) |
+
+| Login | Employee List |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Employees](docs/screenshots/employees.png) |
+
+| Leave Approvals |
+|---|
+| ![Leave](docs/screenshots/leave-approvals.png) |
 
 ---
 
-## Backend setup (Spring Boot)
+## Demo credentials
 
-1) Create PostgreSQL database and user:
+The app seeds demo data automatically on first launch.
+
+```
+Username: admin
+Password: admin123
+```
+
+**Included demo data:** 5 departments · 12 employees · 15 leave requests (PENDING / APPROVED / REJECTED)
+
+---
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Spring Boot 3, Java 17, Maven, PostgreSQL, Spring Security (JWT) |
+| Frontend | Angular 16, Angular Material 16, SCSS, Chart.js |
+| Infrastructure | Docker, Docker Compose, Nginx |
+
+---
+
+## Quick start (Docker Compose)
+
+```bash
+docker compose up --build
+```
+
+- UI:  http://localhost:4200
+- API: http://localhost:8080
+- Swagger: http://localhost:8080/swagger-ui
+
+---
+
+## Local development
+
+### Backend
 
 ```sql
+-- PostgreSQL
 CREATE DATABASE hrms;
 CREATE USER hrms WITH PASSWORD 'hrms';
 GRANT ALL PRIVILEGES ON DATABASE hrms TO hrms;
 ```
 
-2) Configure app (optional overrides):
-
-`hrms/src/main/resources/application.yml`
-- `spring.datasource.*`
-- `jwt.secret` (set to a long random value)
-- `storage.location` (file uploads path)
-
-3) Run the API:
-
 ```bash
 cd hrms
 ./mvnw spring-boot:run
+# API → http://localhost:8080
 ```
 
-API runs at `http://localhost:8080`.
-
-Swagger UI: `/swagger-ui`
-
----
-
-## Frontend setup (Angular)
+### Frontend
 
 ```bash
 cd hrms-ui
 npm install
 npm start
-```
-
-UI runs at `http://localhost:4200` and proxies to `http://localhost:8080/api` based on `environment.ts`.
-
----
-
-## Sample credentials
-
-Create a user in the database with a BCrypt password hash. Example (pseudo):
-
-```
-Username: admin
-Password: Admin123!
-Role: ADMIN
-Enabled: true
-```
-
-To generate a BCrypt hash, use a quick Java snippet:
-
-```java
-new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode("Admin123!")
-```
-
-Then insert the user:
-
-```sql
-INSERT INTO users (username, password, role, enabled)
-VALUES ('admin', '<bcrypt-hash-here>', 'ADMIN', true);
+# UI → http://localhost:4200
 ```
 
 ---
 
-## Deployment instructions
+## Features
+
+- **Dashboard** — live stat cards with trend indicators, headcount history line chart, leave breakdown doughnut, recent activity feed, top departments by headcount
+- **Employees** — CRUD with search, sort, pagination; responsive card view on mobile
+- **Departments** — CRUD with search, sort, pagination
+- **Leave requests** — CRUD with employee autocomplete search; manager approval workflow
+- **Dark mode** — full dark theme persisted in localStorage, toggled from the sidebar
+- **Responsive** — sidebar collapses on mobile (≤ 768 px), employee table switches to card view
+- **Toast notifications** — global top-right toast system replacing Material snackbars
+
+---
+
+## Deployment
 
 ### Backend
-- Build:
-  ```bash
-  cd hrms
-  ./mvnw clean package
-  ```
-- Run:
-  ```bash
-  java -jar target/hrms-0.0.1-SNAPSHOT.jar
-  ```
 
-Set environment variables for production:
+```bash
+cd hrms
+./mvnw clean package
+java -jar target/hrms-0.0.1-SNAPSHOT.jar
+```
+
+Environment variables:
 - `SPRING_DATASOURCE_URL`
 - `SPRING_DATASOURCE_USERNAME`
 - `SPRING_DATASOURCE_PASSWORD`
 - `JWT_SECRET`
-- `STORAGE_LOCATION`
 
 ### Frontend
-- Build:
-  ```bash
-  cd hrms-ui
-  npm run build
-  ```
-- Serve the built files from `hrms-ui/dist/hrms-ui` using Nginx or any static host.
 
-Update `environment.prod.ts` to point to the production API base URL before building.
+```bash
+cd hrms-ui
+npm run build
+# Serve hrms-ui/dist/hrms-ui with Nginx
+```
+
+Update `environment.prod.ts` with the production API base URL before building.
 
 ---
 
 ## Notes
-- JWT auth uses stateless requests with `Authorization: Bearer <token>`.
-- File uploads are stored on disk at `storage.location` and metadata is saved in the database.
-- Role-based access control is enforced in the API via `@PreAuthorize`.
+
+- JWT auth is stateless — `Authorization: Bearer <token>` on every request
+- Role-based access control via `@PreAuthorize` on the API
+- Demo data is seeded once (guard: `existsByNameIgnoreCase("Engineering")`)
