@@ -38,9 +38,11 @@
 
         <ng-container matColumnDef="dates">
           <th mat-header-cell *matHeaderCellDef>Dates</th>
-          <td mat-cell *matCellDef="let row" class="dates-cell">
-            <mat-icon class="date-icon">date_range</mat-icon>
-            {{ row.startDate }} — {{ row.endDate }}
+          <td mat-cell *matCellDef="let row">
+            <div class="dates-cell">
+              <mat-icon class="date-icon">date_range</mat-icon>
+              <span>{{ row.startDate }} — {{ row.endDate }}</span>
+            </div>
           </td>
         </ng-container>
 
