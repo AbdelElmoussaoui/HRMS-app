@@ -15,6 +15,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "defaultConfiguration": "production",
           "options": {
             "outputPath": "dist/hrms-ui",
             "index": "src/index.html",
@@ -37,6 +38,11 @@
               "outputHashing": "all",
               "sourceMap": false,
               "extractLicenses": true
+            },
+            "development": {
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true
             }
           }
         },
@@ -48,8 +54,12 @@
           "configurations": {
             "production": {
               "buildTarget": "hrms-ui:build:production"
+            },
+            "development": {
+              "buildTarget": "hrms-ui:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }
