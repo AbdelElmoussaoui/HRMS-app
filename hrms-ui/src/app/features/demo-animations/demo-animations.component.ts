@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { gsap } from 'gsap';
-import { autoAnimate } from '@formkit/auto-animate';
+import autoAnimate from '@formkit/auto-animate';
 
 import { AnimationService } from '../../core/services/animation.service';
 
@@ -145,15 +145,16 @@ export class DemoAnimationsComponent implements OnInit, AfterViewInit, OnDestroy
   // ── Reveal après skeleton ────────────────────────────────
 
   private animateReveal(): void {
-    if (!this.revealCardRef) return;
+    const ref = this.revealCardRef;
+    if (!ref) return;
     this.ctxReveal = gsap.context(() => {
-      gsap.from(this.revealCardRef.nativeElement, {
+      gsap.from(ref.nativeElement, {
         y:          24,
         opacity:    0,
         duration:   0.5,
         ease:       'power3.out',
         clearProps: 'transform,opacity'
       });
-    }, this.revealCardRef.nativeElement);
+    }, ref.nativeElement);
   }
 }
