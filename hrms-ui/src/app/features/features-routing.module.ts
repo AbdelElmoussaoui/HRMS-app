@@ -28,6 +28,11 @@ const routes: Routes = [
       {
         path: 'leave',
         loadChildren: () => import('./leave/leave.module').then(m => m.LeaveModule)
+      },
+      {
+        path: 'demo-animations',
+        loadChildren: () =>
+          import('./demo-animations/demo-animations.module').then(m => m.DemoAnimationsModule)
       }
     ]
   }

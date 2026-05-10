@@ -1,0 +1,144 @@
+<section class="page demo-page">
+
+  <header class="page-header">
+    <div>
+      <h2 class="page-title">Animation Showcase</h2>
+      <p class="page-subtitle">Démonstration GSAP · auto-animate · Skeleton loader</p>
+    </div>
+  </header>
+
+  <!-- ── Section 1 : Stagger cards ──────────────────────── -->
+  <div class="demo-section">
+    <h3 class="section-title">
+      <mat-icon>auto_awesome</mat-icon>
+      Stagger Cards (GSAP)
+    </h3>
+    <p class="section-desc">
+      6 cards entrent en cascade depuis le bas avec <code>AnimationService.staggerCards()</code>
+    </p>
+
+    <div class="cards-grid" #cardsGrid>
+      <div class="demo-card card-elevated" *ngFor="let card of cards">
+        <div class="demo-card-icon" [style.background]="card.accent + '1a'">
+          <mat-icon [style.color]="card.accent">{{ card.icon }}</mat-icon>
+        </div>
+        <div class="demo-card-body">
+          <p class="demo-card-label">{{ card.label }}</p>
+          <span class="demo-card-value">{{ card.value }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Section 2 : Count-up KPI ─────────────────────── -->
+  <div class="demo-section">
+    <h3 class="section-title">
+      <mat-icon>trending_up</mat-icon>
+      Count-up KPI (GSAP + ngZone)
+    </h3>
+    <p class="section-desc">
+      Compteur animé de <strong>0 → 1247</strong> via <code>AnimationService.countUp()</code>
+    </p>
+
+    <mat-card class="kpi-card card-elevated">
+      <div class="kpi-icon-wrap">
+        <mat-icon>people</mat-icon>
+      </div>
+      <div class="kpi-body">
+        <p class="kpi-label">Total applications this year</p>
+        <h2 class="kpi-value" #kpiValue>0</h2>
+        <small class="kpi-sub tw-text-muted">Updated live</small>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- ── Section 3 : Auto-animate list ────────────────── -->
+  <div class="demo-section">
+    <h3 class="section-title">
+      <mat-icon>format_list_bulleted</mat-icon>
+      Auto-animate List (@formkit/auto-animate)
+    </h3>
+    <p class="section-desc">
+      Ajout, suppression et réordonnancement avec transitions automatiques — zéro CSS.
+    </p>
+
+    <mat-card class="list-card card-elevated">
+      <div class="list-actions">
+        <button mat-stroked-button color="primary" (click)="addItem()" class="btn-hover">
+          <mat-icon>person_add</mat-icon> Ajouter
+        </button>
+        <button mat-stroked-button (click)="shuffleItems()" class="btn-hover"
+                [disabled]="listItems.length < 2">
+          <mat-icon>shuffle</mat-icon> Mélanger
+        </button>
+      </div>
+
+      <ul class="auto-list" #autoList>
+        <li class="auto-item" *ngFor="let item of listItems">
+          <div class="auto-item-avatar">
+            {{ item.name.charAt(0) }}
+          </div>
+          <div class="auto-item-info">
+            <span class="auto-item-name">{{ item.name }}</span>
+            <span class="auto-item-dept">{{ item.dept }}</span>
+          </div>
+          <button mat-icon-button color="warn"
+                  (click)="removeItem(item.id)"
+                  matTooltip="Supprimer">
+            <mat-icon>close</mat-icon>
+          </button>
+        </li>
+
+        <li class="auto-empty" *ngIf="listItems.length === 0">
+          <mat-icon>people_outline</mat-icon>
+          <span>Liste vide — cliquez sur Ajouter</span>
+        </li>
+      </ul>
+    </mat-card>
+  </div>
+
+  <!-- ── Section 4 : Skeleton → content ─────────────── -->
+  <div class="demo-section">
+    <h3 class="section-title">
+      <mat-icon>hourglass_empty</mat-icon>
+      Skeleton Loader → Contenu (2 secondes)
+    </h3>
+    <p class="section-desc">
+      Affichage des squelettes pendant le "fetch", puis apparition du contenu avec GSAP.
+    </p>
+
+    <!-- État skeleton -->
+    <mat-card class="reveal-card card-elevated" *ngIf="loadingContent">
+      <div class="skeleton-layout">
+        <app-skeleton variant="circle" width="48px" height="48px"></app-skeleton>
+        <div class="tw-flex tw-flex-col tw-gap-2 tw-flex-1">
+          <app-skeleton variant="text" width="60%" height="14px"></app-skeleton>
+          <app-skeleton variant="text" width="40%" height="10px"></app-skeleton>
+        </div>
+        <app-skeleton variant="rect" width="80px" height="28px"></app-skeleton>
+      </div>
+      <div class="tw-flex tw-flex-col tw-gap-3 tw-mt-4">
+        <app-skeleton variant="text" width="100%" height="12px"></app-skeleton>
+        <app-skeleton variant="text" width="85%"  height="12px"></app-skeleton>
+        <app-skeleton variant="text" width="70%"  height="12px"></app-skeleton>
+      </div>
+    </mat-card>
+
+    <!-- Contenu réel — apparaît après 2s avec fade-in GSAP -->
+    <mat-card class="reveal-card card-elevated" *ngIf="showContent" #revealCard>
+      <div class="reveal-header">
+        <div class="reveal-avatar">AM</div>
+        <div class="reveal-info">
+          <span class="reveal-name">Antoine Moreau</span>
+          <span class="reveal-dept">Finance Department</span>
+        </div>
+        <span class="badge approved">Active</span>
+      </div>
+      <p class="reveal-body">
+        Les données ont été chargées avec succès. Le skeleton a été remplacé par
+        le contenu réel après 2 secondes, avec une animation d'entrée GSAP fluide.
+      </p>
+    </mat-card>
+  </div>
+
+</section>

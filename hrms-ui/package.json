@@ -19,7 +19,11 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@formkit/auto-animate": "^0.8.2",
     "chart.js": "^4.4.0",
+    "lottie-web": "^5.12.2",
+    "ng2-charts": "^5.0.4",
+    "ngx-lottie": "^11.0.2",
     "rxjs": "^7.8.0",
     "tslib": "^2.6.0",
     "zone.js": "^0.13.0"
@@ -29,6 +33,9 @@
     "@angular/cli": "^16.2.0",
     "@angular/compiler-cli": "^16.2.0",
     "@types/node": "^20.0.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.1.6"
   }
 }

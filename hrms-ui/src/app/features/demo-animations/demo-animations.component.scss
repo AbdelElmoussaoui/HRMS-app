@@ -1,0 +1,276 @@
+/* ── Page ──────────────────────────────────────────────── */
+.demo-page { max-width: 900px; }
+
+/* ── Sections ──────────────────────────────────────────── */
+.demo-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--hrms-text);
+  margin: 0 0 6px;
+  font-family: var(--hrms-heading-font);
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: var(--hrms-primary);
+  }
+}
+
+.section-desc {
+  font-size: 13px;
+  color: var(--hrms-muted);
+  margin: 0 0 16px;
+
+  code {
+    background: rgba(16,185,129,0.10);
+    color: var(--hrms-primary);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+}
+
+/* ── Section 1 : Cards grid ────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 16px !important;
+  cursor: default;
+  transition: transform 0.2s ease;
+
+  &:hover { transform: translateY(-2px); }
+}
+
+.demo-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.demo-card-body { flex: 1; }
+
+.demo-card-label {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hrms-muted);
+}
+
+.demo-card-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--hrms-text);
+  font-family: var(--hrms-heading-font);
+  letter-spacing: -0.02em;
+}
+
+/* ── Section 2 : KPI card ──────────────────────────────── */
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px !important;
+  max-width: 380px;
+}
+
+.kpi-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(16,185,129,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: var(--hrms-primary);
+  }
+}
+
+.kpi-body { flex: 1; }
+
+.kpi-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hrms-muted);
+}
+
+.kpi-value {
+  margin: 0 0 4px;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--hrms-text);
+  font-family: var(--hrms-heading-font);
+  line-height: 1;
+}
+
+.kpi-sub {
+  font-size: 11px;
+  color: var(--hrms-muted);
+}
+
+/* ── Section 3 : Auto-animate list ─────────────────────── */
+.list-card { padding: 20px !important; }
+
+.list-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.auto-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 60px;
+}
+
+.auto-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background: var(--hrms-card);
+  border: 1px solid var(--hrms-border);
+  transition: border-color 0.15s ease;
+
+  &:hover { border-color: var(--hrms-primary); }
+}
+
+.auto-item-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.auto-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.auto-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hrms-text);
+}
+
+.auto-item-dept {
+  font-size: 11px;
+  color: var(--hrms-muted);
+}
+
+.auto-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--hrms-muted);
+  font-size: 13px;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; opacity: 0.5; }
+}
+
+/* ── Section 4 : Reveal card ───────────────────────────── */
+.reveal-card { padding: 24px !important; }
+
+.skeleton-layout {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.reveal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.reveal-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reveal-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.reveal-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hrms-text);
+}
+
+.reveal-dept {
+  font-size: 12px;
+  color: var(--hrms-muted);
+}
+
+.reveal-body {
+  font-size: 13px;
+  color: var(--hrms-muted);
+  line-height: 1.6;
+  margin: 0;
+}

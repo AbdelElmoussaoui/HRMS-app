@@ -29,10 +29,11 @@ export class ShellComponent implements OnInit, OnDestroy {
   sidenavMode: 'side' | 'over' = 'side';
 
   navItems: NavItem[] = [
-    { label: 'Dashboard',   icon: 'dashboard',      route: '/dashboard/dashboard'   },
-    { label: 'Employees',   icon: 'people',          route: '/dashboard/employees'   },
-    { label: 'Departments', icon: 'business',        route: '/dashboard/departments' },
-    { label: 'Leave',       icon: 'event_available', route: '/dashboard/leave'       },
+    { label: 'Dashboard',   icon: 'dashboard',       route: '/dashboard/dashboard'          },
+    { label: 'Employees',   icon: 'people',           route: '/dashboard/employees'          },
+    { label: 'Departments', icon: 'business',         route: '/dashboard/departments'        },
+    { label: 'Leave',       icon: 'event_available',  route: '/dashboard/leave'              },
+    { label: 'Animations',  icon: 'auto_awesome',     route: '/dashboard/demo-animations'    },
   ];
 
   private destroy$ = new Subject<void>();
