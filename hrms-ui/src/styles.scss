@@ -371,14 +371,3 @@ h1, h2, h3, .page-title, .stat-value, .brand-name {
   &.up   { color: #059669; }
   &.down { color: #dc2626; }
 }
-
-/* ── Card stagger animation ──────────────────────────────── */
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.stagger-1 { animation: cardIn 320ms ease-out 0ms   both; }
-.stagger-2 { animation: cardIn 320ms ease-out 60ms  both; }
-.stagger-3 { animation: cardIn 320ms ease-out 120ms both; }
-.stagger-4 { animation: cardIn 320ms ease-out 180ms both; }

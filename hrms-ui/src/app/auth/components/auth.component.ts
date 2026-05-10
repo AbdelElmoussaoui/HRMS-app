@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { gsap } from 'gsap';
 
 import { AuthService } from '../services/auth.service';
 
@@ -317,7 +318,7 @@ import { AuthService } from '../services/auth.service';
     }
   `]
 })
-export class AuthComponent {
+export class AuthComponent implements AfterViewInit {
   loading      = false;
   error        = '';
   showPassword = false;
@@ -332,6 +333,33 @@ export class AuthComponent {
     private authService: AuthService,
     private router: Router
   ) {}
+
+  ngAfterViewInit(): void {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.from('app-logo', {
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'back.out(1.7)'
+      })
+      .from('.brand-title', { y: 22, opacity: 0, duration: 0.45 }, '-=0.25')
+      .from('.brand-subtitle', { y: 16, opacity: 0, duration: 0.4 }, '-=0.3')
+      .from('.feature-item', {
+        x: -26,
+        opacity: 0,
+        duration: 0.38,
+        stagger: 0.09
+      }, '-=0.25')
+      .from('.demo-badge', { y: 14, opacity: 0, duration: 0.38 }, '-=0.15')
+      .from('.auth-card', {
+        x: 36,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity'
+      }, '<-0.7');
+  }
 
   submit(): void {
     if (this.form.invalid) return;
